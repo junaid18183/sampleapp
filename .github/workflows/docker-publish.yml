@@ -24,14 +24,6 @@ jobs:
           push: true
           tags: ghcr.io/junaid18183/sampleapp:${{github.sha}},ghcr.io/junaid18183/sampleapp:latest
 
-      - uses: sigstore/cosign-installer@main
-
-      - name: Sign the images
-        run: |
-          cosign sign ghcr.io/junaid18183/sampleapp:${{github.sha}}
-        env:
-          COSIGN_EXPERIMENTAL: 1
-
       - name: Create SBOM
         uses: anchore/sbom-action@v0
         with:
@@ -40,3 +32,12 @@ jobs:
           registry-password: ${{ secrets.GHCR_ACCESS_TOKEN }}
           artifact-name: sbom.spdx
           format: spdx
+      
+      - uses: sigstore/cosign-installer@main
+
+      - name: Sign the images and attach the SBOM
+        run: |
+          cosign sign ghcr.io/junaid18183/sampleapp:${{github.sha}}
+          cosign attach sbom --sbom sbom.spdx ghcr.io/junaid18183/sampleapp:${{github.sha}}
+        env:
+          COSIGN_EXPERIMENTAL: 1
