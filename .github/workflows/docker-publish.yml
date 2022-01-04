@@ -22,19 +22,20 @@ jobs:
         uses: docker/build-push-action@v2.7.0
         with:
           push: true
-          tags: ghcr.io/junaid18183/sampleapp:${{GITHUB_SHA}},ghcr.io/junaid18183/sampleapp:latest
+          tags: ghcr.io/junaid18183/sampleapp:${{github.sha}},ghcr.io/junaid18183/sampleapp:latest
 
       - uses: sigstore/cosign-installer@main
 
       - name: Sign the images
         run: |
-          cosign sign ghcr.io/junaid18183/sampleapp:${{GITHUB_SHA}}
+          cosign sign ghcr.io/junaid18183/sampleapp:${{github.sha}}
         env:
           COSIGN_EXPERIMENTAL: 1
 
-      - uses: anchore/sbom-action@v0
+      - name: Create SBOM
+        uses: anchore/sbom-action@v0
         with:
-          image: ghcr.io/junaid18183/sampleapp:${{GITHUB_SHA}}
+          image: ghcr.io/junaid18183/sampleapp:${{github.sha}}
           registry-username: ${{ github.actor }}
           registry-password: ${{ secrets.GHCR_ACCESS_TOKEN }}
           artifact-name: sbom.spdx
