@@ -1,43 +1,43 @@
-// variable "CI_REGISTRY_IMAGE" {}
+variable "CI_REGISTRY_IMAGE" {}
 
-// variable "CI_COMMIT_SHA" {}
+variable "CI_COMMIT_SHA" {}
 
-// variable "CI_COMMIT_TIMESTAMP" {}
+variable "CI_COMMIT_TIMESTAMP" {}
 
-// variable "CI_PROJECT_URL" {}
+variable "CI_PROJECT_URL" {}
 
-// variable "CI_PROJECT_TITLE" {}
+variable "CI_PROJECT_TITLE" {}
 
-// group "gitlab" {
-//     targets = [
-//         "sampleapp-gitlab"
-//     ]
-// }
+group "gitlab" {
+    targets = [
+        "sampleapp-gitlab"
+    ]
+}
 
-// group "github" {
-//     targets = [
-//         "sampleapp-github"
-//     ]
-// }
+group "github" {
+    targets = [
+        "sampleapp-github"
+    ]
+}
 
-// target "sampleapp-gitlab" {
-//   pull       = true
-//   context    = "."
-//   dockerfile = "Dockerfile"
-//   tags       = ["${CI_REGISTRY_IMAGE}/sample-app:${CI_COMMIT_SHA}"]
-//   cache-from = ["type=registry,ref=${CI_REGISTRY_IMAGE}/sample-app:cache"]
-//   cache-to   = ["type=registry,ref=${CI_REGISTRY_IMAGE}/sample-app:cache,mode=max"]
-//   platforms  = ["linux/amd64"]
-//   labels     = {
-//     "org.opencontainers.image.title": "${CI_PROJECT_TITLE}",
-//     "org.opencontainers.image.description": "${CI_PROJECT_TITLE}",
-//     "org.opencontainers.image.url": "${CI_PROJECT_URL}",
-//     "org.opencontainers.image.source": "${CI_PROJECT_URL}",
-//     "org.opencontainers.image.version": "${CI_COMMIT_SHA}",
-//     "org.opencontainers.image.created": "${CI_COMMIT_TIMESTAMP}",
-//     "org.opencontainers.image.revision": "${CI_COMMIT_SHA}",
-//   }
-// }
+target "sampleapp-gitlab" {
+  pull       = true
+  context    = "."
+  dockerfile = "Dockerfile"
+  tags       = ["${CI_REGISTRY_IMAGE}/sample-app:${CI_COMMIT_SHA}"]
+  cache-from = ["type=registry,ref=${CI_REGISTRY_IMAGE}/sample-app:cache"]
+  cache-to   = ["type=registry,ref=${CI_REGISTRY_IMAGE}/sample-app:cache,mode=max"]
+  platforms  = ["linux/amd64"]
+  labels     = {
+    "org.opencontainers.image.title": "${CI_PROJECT_TITLE}",
+    "org.opencontainers.image.description": "${CI_PROJECT_TITLE}",
+    "org.opencontainers.image.url": "${CI_PROJECT_URL}",
+    "org.opencontainers.image.source": "${CI_PROJECT_URL}",
+    "org.opencontainers.image.version": "${CI_COMMIT_SHA}",
+    "org.opencontainers.image.created": "${CI_COMMIT_TIMESTAMP}",
+    "org.opencontainers.image.revision": "${CI_COMMIT_SHA}",
+  }
+}
 
 
 variable "GITHUB_SHA" {}
