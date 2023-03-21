@@ -1,5 +1,5 @@
 name: Appium CI
-on: { push: { branches: ['main'] } }
+on: { push: { branches: ['fake'] } }
 
 jobs:
   Sauce_Labs_App_Automate:
